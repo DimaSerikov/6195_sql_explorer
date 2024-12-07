@@ -2,10 +2,18 @@ const sqlForm = document.getElementById('sqlForm');
 const sqlInput = document.getElementById('sqlInput');
 const resultDiv = document.getElementById('result');
 
+const editor = CodeMirror(document.getElementById('sqlEditor'), {
+  mode: 'text/x-sql',
+  theme: 'default',
+  lineNumbers: true,
+  autofocus: true,
+  extraKeys: { 'Ctrl-Space': 'autocomplete' },
+});
+
 sqlForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const sqlQuery = sqlInput.value;
+  const sqlQuery = editor.getValue();
 
   try {
     const response = await fetch('/query', {
@@ -29,8 +37,8 @@ sqlForm.addEventListener('submit', async (e) => {
 });
 
 function renderTable(fields, rows) {
-  let table = '<table><thead><tr>';
-  fields.forEach(field => { table += `<th>${field}</th>`; });
+  let table = '<table class="table table-striped"><thead><tr>';
+  fields.forEach(field => { table += `<th scope="col">${field}</th>`; });
   table += '</tr></thead><tbody>';
   rows.forEach(row => {
     table += '<tr>';
