@@ -25,6 +25,7 @@ app.post('/query', async (req, res) => {
   try {
     const [rows, fields] = await pool.query(sql);
 
+    // SELECT
     if (Array.isArray(rows)) {
       res.json({
         type: 'select',
@@ -32,9 +33,11 @@ app.post('/query', async (req, res) => {
         fields: fields.map(field => field.name),
       });
     } else {
+      // INSERT, UPDATE, DELETE
       res.json({
         type: 'update',
         rowCount: rows.affectedRows,
+        operation: sql.trim().split(' ')[0].toUpperCase(),
       });
     }
   } catch (error) {

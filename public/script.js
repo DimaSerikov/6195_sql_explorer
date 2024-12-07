@@ -27,7 +27,7 @@ sqlForm.addEventListener('submit', async (e) => {
     if (data.type === 'select') {
       renderTable(data.fields, data.data);
     } else if (data.type === 'update') {
-      resultDiv.innerHTML = `<p>${data.rowCount} rows affected.</p>`;
+      resultDiv.innerHTML = `<p>${data.operation}: ${data.rowCount} rows affected.</p>`;
     } else if (data.type === 'error') {
       resultDiv.innerHTML = `<p class="error">Error: ${data.message}</p>`;
     }
